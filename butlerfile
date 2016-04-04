@@ -1,0 +1,12 @@
+cmd: ./activator "$@"
+
+develop: butler cmd -jvm-debug 9999 -Dplay.editor=http://localhost:8091/?message=%s:%s -Dapplication.mode=dev "$@"
+
+server: butler develop run
+client: npm start
+test: butler develop test
+
+package: npm run build && butler cmd docker:stage
+
+db: postgres -D /usr/local/var/postgres
+mq: rabbitmq-server
